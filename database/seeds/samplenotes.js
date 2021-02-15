@@ -5,8 +5,9 @@ exports.seed = function (knex) {
     .then(function () {
       // Inserts seed entries
       return knex("notetable").insert([
-        { note: "react is difficult..." },
-        { note: "Do i learn a little?" },
+        { id: 0, note: "This is test note." },
+        { note: "React is difficult..." },
+        { note: "Heroku is very difficult..." },
       ]);
     });
 };

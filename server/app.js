@@ -19,7 +19,7 @@ app.use(
 // Serve static assets
 app.use(express.static(path.resolve(__dirname, "..", "build")));
 
-app.get("/get", async (req, res) => {
+app.get("/getAll", async (req, res) => {
   try {
     const notes = await db.select().table("notetable");
     res.json(notes);
@@ -29,27 +29,48 @@ app.get("/get", async (req, res) => {
   }
 });
 
-/*
-app.post("/postName", async (req, res) => {
+app.get("/get/:id", async (req, res) => {
+  const id = req.params.id;
   try {
-    const name = req.body.name;
-    const color = req.body.color;
-    const hex = req.body.hex;
-    await db("colors").insert({
-      name: name,
-      r: color[0],
-      g: color[1],
-      b: color[2],
-      hex: hex,
-    });
-    res.sendStatus(200);
+    const note = await db.where({ id: id }).select().from("notetable");
+    res.json(note);
   } catch (err) {
-    console.error(err);
+    console.error("Error loading locations!", err);
     res.sendStatus(500);
   }
-});*/
+});
 
-// Always return the main index.html, so react-router render the route in the client
+app.delete("/delete/:id", async (req, res) => {
+  const id = req.params.id;
+  try {
+    await db.where({ id: id }).del().from("notetable");
+    res.sendStatus(200);
+  } catch (err) {
+    console.error("Error loading locations!", err);
+    res.sendStatus(500);
+  }
+});
+
+app.post("/add", async (req, res) => {
+  try {
+    await db.insert([{ note: "Please write here!" }]).from("notetable");
+  } catch (err) {
+    console.error("Error loading locations!", err);
+    res.sendStatus(500);
+  }
+});
+
+app.put("/update/:id/:updated", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const note = req.params.updated;
+    await db.where({ id: id }).update({ note: note }).from("notetable");
+  } catch (err) {
+    console.error("Error loading locations!", err);
+    res.sendStatus(500);
+  }
+});
+
 app.get("*", (req, res) => {
   //res.sendFile(path.resolve(__dirname, "..", "build", "index.html"));
   res.json("This is localhost9000, server PORT!");
