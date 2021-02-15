@@ -1,17 +1,26 @@
 {
   "name": "cc17-notes",
   "version": "0.1.0",
+  "proxy": "http://localhost:9000",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.7.1",
+    "axios": "^0.21.1",
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "knex": "^0.21.17",
+    "morgan": "^1.10.0",
+    "pg": "^8.5.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-scripts": "4.0.2",
     "web-vitals": "^1.1.0"
   },
   "scripts": {
+    "server": "node server",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
